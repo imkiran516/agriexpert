@@ -5,7 +5,7 @@ const https = require("https");
 
 var LocalStorage = require('node-localstorage').LocalStorage;
 localStorage = new LocalStorage('./scratch');
-mongoose.connect("mongodb://localhost:27017/hackathon");
+mongoose.connect("mongodb+srv://kiran:kiran@cluster0.siuvs9s.mongodb.net/gnt-hack");
 
 const user_schema = new mongoose.Schema({
     name: String,
@@ -30,20 +30,20 @@ const app = express();
 app.set('view engine', 'ejs');
 app.use(bp.urlencoded({ extended: true }));
 app.use(express.static("public"));
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
     res.render("land");
 })
-app.get("/login", function(req, res) {
+app.get("/login", function (req, res) {
     res.render("login");
 });
 
 
-app.post("/loginuser", function(req, res) {
+app.post("/loginuser", function (req, res) {
     const a = req.body.mail;
     const b = req.body.pass;
     console.log(req.body);
 
-    User.findOne({ mail: a, pass: b }, function(err, data) {
+    User.findOne({ mail: a, pass: b }, function (err, data) {
         if (err) console.log("Error came");
         else if (data) {
             console.log("loginuser");
@@ -53,11 +53,11 @@ app.post("/loginuser", function(req, res) {
     });
 });
 
-app.post("/login", function(req, res) {
+app.post("/login", function (req, res) {
     const a = req.body.mail;
     const b = req.body.pass;
     console.log(req.body);
-    RegisterModule.findOne({ mail: a, password: b }, function(err, data) {
+    RegisterModule.findOne({ mail: a, password: b }, function (err, data) {
         if (err) console.log("Error came");
         else if (data) {
             localStorage.setItem("user", data);
@@ -67,12 +67,12 @@ app.post("/login", function(req, res) {
 
 });
 
-app.post("/loginexpert", function(req, res) {
+app.post("/loginexpert", function (req, res) {
     const a = req.body.mail;
     const b = req.body.pass;
     console.log(req.body);
 
-    Expert.findOne({ mail: a, pass: b }, function(err, data) {
+    Expert.findOne({ mail: a, pass: b }, function (err, data) {
         if (err) console.log("Error came");
         else if (data) {
             console.log("loginexpert");
@@ -83,32 +83,32 @@ app.post("/loginexpert", function(req, res) {
 
 });
 
-app.get("/en", function(req, res) {
+app.get("/en", function (req, res) {
     a = "en";
     localStorage.setItem("lang", a);
     res.redirect("/login");
 });
-app.get("/te", function(req, res) {
+app.get("/te", function (req, res) {
     a = "te";
     localStorage.setItem("lang", a);
     res.redirect("/login");
 });
-app.get("/hi", function(req, res) {
+app.get("/hi", function (req, res) {
     a = "hi";
     localStorage.setItem("lang", a);
     res.redirect("/login");
 });
 
 
-app.get("/logout", function(req, res) {
+app.get("/logout", function (req, res) {
     localStorage.clear();
     res.redirect("/login");
 });
-app.get("/signup", function(req, res) {
+app.get("/signup", function (req, res) {
     res.render("signup");
 });
 
-app.post("/signupuser", function(req, res) {
+app.post("/signupuser", function (req, res) {
     var a = req.body.name;
     var b = req.body.mail;
     var c = req.body.phone;
@@ -125,7 +125,7 @@ app.post("/signupuser", function(req, res) {
     res.redirect("/login");
 });
 
-app.post("/signupexpert", function(req, res) {
+app.post("/signupexpert", function (req, res) {
     var a = req.body.name;
     var b = req.body.mail;
     var c = req.body.phone;
@@ -142,14 +142,14 @@ app.post("/signupexpert", function(req, res) {
     res.redirect("/login");
 });
 
-app.get("/dashboard", function(req, res) {
+app.get("/dashboard", function (req, res) {
     res.render("dashboard", { ans: "a" });
 });
 
-app.get("/weather", function(req, res) {
+app.get("/weather", function (req, res) {
     res.render("weather", { data: "hi" });
 });
-app.post("/weather", function(req, res) {
+app.post("/weather", function (req, res) {
     const apiKey = "ec9b79c4c63c06534a519841060b102c";
     const city = req.body.city;
     const units = "metric";
@@ -164,7 +164,7 @@ app.post("/weather", function(req, res) {
 });
 
 
-app.post("/chatgpt", function(req, res) {
+app.post("/chatgpt", function (req, res) {
 
     var que = req.body.text;
 
@@ -174,7 +174,7 @@ app.post("/chatgpt", function(req, res) {
     });
     const openai = new OpenAIApi(configuration);
 
-    const chapGPT = async(prompt) => {
+    const chapGPT = async (prompt) => {
         const response = await openai.createChatCompletion({
             model: "gpt-3.5-turbo",
             messages: [{ role: "user", content: prompt }],
@@ -183,8 +183,6 @@ app.post("/chatgpt", function(req, res) {
         var ans = response["data"]["choices"][0]["message"]["content"];
 
         res.render("dashboard", { ans: ans });
-        // console.log(response["data"]["choices"][0]["message"]["content"]);
-
     };
 
     chapGPT(que)
@@ -193,34 +191,34 @@ app.post("/chatgpt", function(req, res) {
 });
 
 
-app.get("/interact", function(req, res) {
+app.get("/interact", function (req, res) {
     res.render("interact");
 });
 
 
-app.get("/languages", function(req, res) {
+app.get("/languages", function (req, res) {
 
     res.render("languages")
 });
 
 
 
-app.get("/call", function(req, res) {
+app.get("/call", function (req, res) {
     var a = localStorage.getItem("lang");
-    Expert.find({ lang: a }, function(err, data) {
+    Expert.find({ lang: a }, function (err, data) {
         if (err) console.log("Error came");
         else res.render("call", { data: data });
     });
 });
 
-app.post("/call", function(req, res) {
+app.post("/call", function (req, res) {
     var a = req.body.lang;
-    Expert.find({ lang: a }, function(err, data) {
+    Expert.find({ lang: a }, function (err, data) {
         if (err) console.log("Error came");
         else res.render("call", { data: data });
     });
 })
 
-app.listen(5000, function() {
+app.listen(5000, function () {
     console.log("server started at 5000 port");
 });
