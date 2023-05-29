@@ -95,9 +95,28 @@
     <link href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css" rel="stylesheet" />
 
     <!-- <link rel="stylesheet" href="css/style.css" /> -->
+
 </head>
 
 <body>
+    <script>
+        function checkScreenResolution() {
+            // Define the threshold resolution for desktop mode
+            var thresholdWidth = 1024; // Adjust this value as needed
+
+            // Get the current screen width
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+
+            // Check if the screen width is below the threshold for desktop mode
+            if (screenWidth < thresholdWidth) {
+                // Set the user agent string to simulate a desktop browser
+                navigator.userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36';
+
+                // Refresh the page to apply the new user agent
+                location.reload();
+            }
+        }
+    </script>
     <nav class="navbar navbar-expand-lg sticky-lg-top" style="background: rgba(255, 255, 255, 0.192);
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.281); height: 4rem;">
         <div class="container-fluid  ">
