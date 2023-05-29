@@ -17,10 +17,11 @@
       }
     }
 
-    // Call enableDesktopMode function automatically on page load
-    window.onload = function() {
+    // Call enableDesktopMode function automatically if screen resolution is less than 1000 pixels
+    if (window.innerWidth < 1000) {
+    alert("function called");
       enableDesktopMode();
-    };
+    }
   </script>
 </head>
 <body>
